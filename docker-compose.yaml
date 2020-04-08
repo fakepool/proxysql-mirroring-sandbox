@@ -1,0 +1,33 @@
+version: "3"
+services:
+  mysql2:
+    image: mysql:5.7.16
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - "./mysql/my.cnf:/etc/mysql/my.cnf"
+  mysql:
+    image: mysql:5.7.16
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+    - "./mysql/my.cnf:/etc/mysql/my.cnf"
+  proxysql:
+    image: proxysql/proxysql:2.0.10
+    volumes: 
+    - "./proxysql.cnf:/etc/proxysql.cnf"
+    - "./proxysql:/var/lib/proxysql"
+    ports:
+    - "6033:6033"
+    - "6032:6032"
+    - "6080:6080"
