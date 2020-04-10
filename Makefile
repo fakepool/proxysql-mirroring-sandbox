@@ -27,23 +27,15 @@ sysbench_prepare:
 
 .PHONY: sysbench_run
 sysbench_run:
-	sysbench oltp_read_write --threads=1 \
-	--events=0 --time=10 \
-	--mysql-host=127.0.0.1 --mysql-port=6033 \
-	--mysql-db=test \
-	--mysql-user=root --mysql-password=password --tables=2 \
-	--table-size=10000 --range_selects=off \
+	sysbench oltp_read_write --mysql-host=127.0.0.1 \
+	--mysql-port=6033 \
+	--db-driver=mysql --max-requests=0 \
+	--mysql-user=root --mysql-password=password \
+  	--time=10  --db-ps-mode=disable \
+	--mysql-db=test --range_size=100 \
+	--threads=1 \
+	--table-size=10000 --tables=2 --range_selects=off \
 	--report-interval=1 run
-
-#.PHONY: sysbench_run
-#sysbench_run:
-#	sysbench oltp_read_write --threads=1 \
-#	--events=0 --time=30 \
-#	--mysql-host=127.0.0.1 --mysql-port=6033 \
-#	--mysql-db=test \
-#	--mysql-user=root --mysql-password=password --tables=2 \
-#	--table-size=10000 --range_selects=off --db-ps-mode=disable \
-#	--report-interval=1 run
 
 .PHONY: sysbench_cleanup
 sysbench_cleanup:
@@ -53,10 +45,10 @@ sysbench_cleanup:
 	--tables=2 \
 	--mysql-db=test cleanup
 
-.PHONY: mysql1
-mysql1:
-	mysql -h 127.0.0.1 -P 3306 -uroot -ppassword --prompt "mysql1 3306>"
+.PHONY: master
+master:
+	mysql -h 127.0.0.1 -P 3306 -uroot -ppassword --prompt "master 3306>"
 
-.PHONY: mysql2
-mysql2:
-	mysql -h 127.0.0.1 -P 3307 -uroot -ppassword --prompt "mysql1 3307>"
+.PHONY: mirror
+mirror:
+	mysql -h 127.0.0.1 -P 3307 -uroot -ppassword --prompt "mirror 3307>"

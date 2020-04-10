@@ -1,3 +1,4 @@
 proxysql
 help
-.idea/**
+**/.idea
+**/.DS_Store
