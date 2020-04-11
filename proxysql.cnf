@@ -65,7 +65,15 @@ mysql_users:
  		max_connections=10000
  		default_schema="information_schema"
  		active = 1
- 	}
+ 	},
+ 	{
+        username = "sysbench"
+        password = "sysbench"
+        default_hostgroup = 1
+        max_connections=10000
+        default_schema="information_schema"
+        active = 1
+    }
  )
 
 mysql_query_rules =

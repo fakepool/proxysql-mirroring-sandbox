@@ -20,7 +20,7 @@ sysbench_prepare:
 	sysbench oltp_read_write --mysql-host=127.0.0.1 \
 	--mysql-port=6033 \
 	--db-driver=mysql \
-	--mysql-user=root --mysql-password=password \
+	--mysql-user=sysbench --mysql-password=sysbench \
 	--mysql-db=test --range_size=100 \
 	--table_size=10000 --tables=2 --threads=1 --events=0 \
 	--rand-type=uniform prepare
@@ -30,7 +30,7 @@ sysbench_run:
 	sysbench oltp_read_write --mysql-host=127.0.0.1 \
 	--mysql-port=6033 \
 	--db-driver=mysql --max-requests=0 \
-	--mysql-user=root --mysql-password=password \
+	--mysql-user=sysbench --mysql-password=sysbench \
   	--time=10  --db-ps-mode=disable \
 	--mysql-db=test --range_size=100 \
 	--threads=1 \
@@ -41,7 +41,7 @@ sysbench_run:
 sysbench_cleanup:
 	sysbench oltp_read_write --mysql-host=127.0.0.1 \
 	--mysql-port=6033 --db-driver=mysql \
-	--mysql-user=root --mysql-password=password \
+	--mysql-user=sysbench --mysql-password=sysbench \
 	--tables=2 \
 	--mysql-db=test cleanup
 
@@ -52,3 +52,11 @@ master:
 .PHONY: mirror
 mirror:
 	mysql -h 127.0.0.1 -P 3307 -uroot -ppassword --prompt "mirror 3307>"
+
+.PHONY: master_and_mirror_checksum_equal_test
+master_and_mirror_checksum_equal_test:
+	python3 ./test_scripts/check_mirrored_tables.py --tables=2
+
+.PHONY: mirror_fail_test
+mirror_fail_test:
+	./mirror_fail_test.sh

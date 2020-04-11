@@ -7,8 +7,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: test
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_USER: sysbench
+      MYSQL_PASSWORD: sysbench
     volumes:
       - "./mysql/my.cnf:/etc/mysql/my.cnf"
   master:
@@ -18,8 +18,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: test
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_USER: sysbench
+      MYSQL_PASSWORD: sysbench
     volumes:
     - "./mysql/my.cnf:/etc/mysql/my.cnf"
   proxysql:
